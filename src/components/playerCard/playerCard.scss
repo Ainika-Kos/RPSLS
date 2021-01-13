@@ -1,0 +1,28 @@
+.playerCard {
+  text-align: center;
+  color: white;
+  font-size: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+
+  & p {
+    margin: 10px 0;
+  }
+}
+
+.playCard__icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 6px double #52e0e0;
+}
+
+.playCard__icon {
+  color: #52e0e0;
+}
