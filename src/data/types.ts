@@ -12,4 +12,9 @@ export type PlayerType = {
   choise: HandChoiseType;
 };
 
+export type ResultType = {
+  message: string;
+  description: string;
+};
+
 

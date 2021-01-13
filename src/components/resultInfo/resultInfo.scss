@@ -1,0 +1,16 @@
+.resultInfo {
+  border: 2px solid #99e052;
+  border-radius: 4px;
+  padding: 10px;
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & p {
+      margin: 5px 0;
+  }
+}

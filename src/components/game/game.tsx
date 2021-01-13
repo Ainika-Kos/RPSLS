@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import NameInput from '../nameInput/nameInput';
 import PlayerCard from '../playerCard/playerCard';
-import SetResult from '../setResult/setResult';
+import ResultInfo from '../resultInfo/resultInfo';
 import Button from '../button/button';
-import { PlayerType } from '../../data/types';
+import { PlayerType, ResultType } from '../../data/types';
 import { handChoise } from '../../data/handChoise';
 import { smartNumber } from '../../helpers/smartNumber';
+import { getWinner } from '../../helpers/getWinner';
+import { getMessage } from '../../helpers/getMessage';
 import './game.scss';
+import { getDescription } from '../../helpers/getDescription';
 
 const Board = () => {
   const [realPlayer, setRealPlayer] = useState<PlayerType>({
@@ -30,8 +33,14 @@ const Board = () => {
     },
   });
 
+  const [result, setResult] = useState<ResultType>({
+    message: 'Enjoy your game!',
+    description: '',
+  });
+
   const newRealPlayer = { ...realPlayer };
   const newComputerPlayer = { ...computerPlayer };
+  const newResult = { ...result };
 
   const nameChangeHandler = (name: string) => {
     newRealPlayer.name = name;
@@ -41,15 +50,39 @@ const Board = () => {
   const choiseHandler = (identificator: number) => {
 
     const index = handChoise.findIndex(({ id }) => id === identificator);
-    newRealPlayer.choise.icon = handChoise[index].icon;
-    newRealPlayer.choise.name = handChoise[index].name;
+    const playerChoiseIcon = handChoise[index].icon;
+    const playerChoiseName = handChoise[index].name;
 
     const number = smartNumber();
-    newComputerPlayer.choise.icon = handChoise[number].icon;
-    newComputerPlayer.choise.name = handChoise[number].name;
+    const computerChoiseIcon = handChoise[number].icon;
+    const computerChoiseName = handChoise[number].name;
+
+    const winner = getWinner(playerChoiseName, computerChoiseName);
+
+    let newDescription;
+    
+    if (winner === 'tie') {
+      newDescription = `${playerChoiseName} = ${computerChoiseName}`;
+    } else if (winner === 'firstPlayer') {
+      newRealPlayer.score += 1;
+      newDescription = getDescription(playerChoiseName, computerChoiseName);
+    } else {
+      newComputerPlayer.score += 1;
+      newDescription = getDescription(computerChoiseName, playerChoiseName);
+    }
+
+    newResult.message = getMessage(winner);
+    newResult.description = newDescription;
+       
+    newRealPlayer.choise.icon = playerChoiseIcon;
+    newRealPlayer.choise.name = playerChoiseName;
+
+    newComputerPlayer.choise.icon = computerChoiseIcon;
+    newComputerPlayer.choise.name = computerChoiseName;
 
     setRealPlayer(newRealPlayer);
     setComputerPlayer(newComputerPlayer);
+    setResult(newResult);
   };
 
   return (
@@ -65,12 +98,10 @@ const Board = () => {
             <PlayerCard player={realPlayer} />
           </div>
           <div className="col-xs-4">
-            <SetResult text="Set result" />
+            <ResultInfo result={result} />
           </div>
           <div className="col-xs-4">
-            <PlayerCard
-              player={computerPlayer}
-            />
+            <PlayerCard player={computerPlayer} />
           </div>
         </div>
         <div className="row center-xs">
@@ -81,11 +112,12 @@ const Board = () => {
         <div className="row center-xs">
           <div className="col-xs-12">
             {handChoise.map(({ id, icon }) => {
-              return <Button
-                key={id}
-                clickHandler={() => choiseHandler(id)}
-                icon={icon}
-              />;
+              return (
+                <Button
+                  key={id}
+                  clickHandler={() => choiseHandler(id)}
+                  icon={icon}
+                />);
             })}
           </div>
         </div>
