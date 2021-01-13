@@ -1,0 +1,15 @@
+.board-heading {
+  display: table;
+  margin: 10vh auto;
+  font-size: 3rem;
+  background: linear-gradient(
+    330deg,
+    #e05252 0%,
+    #99e052 25%,
+    #52e0e0 50%,
+    #9952e0 75%,
+    #e05252 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
