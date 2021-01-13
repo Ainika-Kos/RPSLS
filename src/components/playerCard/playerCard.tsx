@@ -14,10 +14,15 @@ const PlayerCard = ({ player }: PlayerCardProps) => {
         {player.name.length ? player.name : 'Player'} : {player.score}
       </p>
       <div className="playCard__icon-wrapper">
-        <FontAwesomeIcon icon={player.choise.icon} size="4x" className="playCard__icon" />
+        {player.choise.name === 'Start game' ? (
+          <FontAwesomeIcon icon={player.choise.icon} size="4x" className="playCard__icon" spin />
+        ) : (
+          <FontAwesomeIcon icon={player.choise.icon} size="4x" className="playCard__icon" />
+        )}
+        
       </div>
       <p className="playerCard__text">
-        {player.choise.name !== 'Question' ? player.choise.name : '?'}
+        {player.choise.name}
       </p>
     </div>
   );
