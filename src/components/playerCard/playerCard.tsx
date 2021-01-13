@@ -1,23 +1,29 @@
 import React from 'react';
 import './playerCard.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestion} from '@fortawesome/free-solid-svg-icons';
 import { PlayerType } from '../../data/types';
 
 type PlayerCardProps = {
   player: PlayerType;
+  start: boolean;
 };
 
-const PlayerCard = ({ player }: PlayerCardProps) => {
+const PlayerCard = ({ player, start }: PlayerCardProps) => {
+
+  const { name, score, } = player;
+  const { icon } = player.choise;
+
   return (
     <div className="playerCard">
       <p className="playerCard__text">
-        {player.name.length ? player.name : 'Player'} : {player.score}
+        {name.length ? name : 'Player'} : {score}
       </p>
       <div className="playCard__icon-wrapper">
-        {player.choise.name === 'Start game' ? (
-          <FontAwesomeIcon icon={player.choise.icon} size="4x" className="playCard__icon" spin />
+        {start ? (
+          <FontAwesomeIcon icon={faQuestion} size="4x" className="playCard__icon" spin />
         ) : (
-          <FontAwesomeIcon icon={player.choise.icon} size="4x" className="playCard__icon" />
+          <FontAwesomeIcon icon={icon} size="4x" className="playCard__icon" />
         )}
         
       </div>

@@ -7,11 +7,13 @@
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   background-color: #003679;
   color: white;
+  text-align: center;
 
   &::placeholder {
     background-color: #003679;
-    color: white;
+    color: grey;
     font-family: 'Poppins', sans-serif;
+    text-align: center;
   }
 
   &:focus {

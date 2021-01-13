@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faQuestion, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 import NameInput from '../nameInput/nameInput';
 import PlayerCard from '../playerCard/playerCard';
 import ResultInfo from '../resultInfo/resultInfo';
@@ -11,32 +11,41 @@ import { getWinner } from '../../helpers/getWinner';
 import { getMessage } from '../../helpers/getMessage';
 import './game.scss';
 import { getDescription } from '../../helpers/getDescription';
+import GameOver from '../gameOver/gameOver';
 
-const Board = () => {
-  const [realPlayer, setRealPlayer] = useState<PlayerType>({
+const initialPlayers: PlayerType[] = [
+  {
     name: '',
     score: 0,
     choise: {
-      id: 0,
-      name: 'Start game',
+      id: 10,
+      name: 'start',
       icon: faQuestion,
     },
-  });
-
-  const [computerPlayer, setComputerPlayer] = useState<PlayerType>({
+  },
+  {
     name: 'Computer',
     score: 0,
     choise: {
-      id: 0,
-      name: 'Start game',
+      id: 10,
+      name: 'start',
       icon: faQuestion,
     },
-  });
+  },
+];
 
-  const [result, setResult] = useState<ResultType>({
-    message: 'Enjoy your game!',
-    description: '',
-  });
+const initialResult: ResultType = {
+  message: 'Enjoy the game!',
+  description: '',
+};
+
+const Game = () => {
+  const [realPlayer, setRealPlayer] = useState(initialPlayers[0]);
+  const [computerPlayer, setComputerPlayer] = useState(initialPlayers[1]);
+  const [result, setResult] = useState(initialResult);
+  const [start, setStart] = useState(true);
+  const [gameOver, setGameover] = useState(false);
+  const [totalWinner, setTotalWinner] = useState('');
 
   const newRealPlayer = { ...realPlayer };
   const newComputerPlayer = { ...computerPlayer };
@@ -48,7 +57,6 @@ const Board = () => {
   };
 
   const choiseHandler = (identificator: number) => {
-
     const index = handChoise.findIndex(({ id }) => id === identificator);
     const playerChoiseIcon = handChoise[index].icon;
     const playerChoiseName = handChoise[index].name;
@@ -60,7 +68,7 @@ const Board = () => {
     const winner = getWinner(playerChoiseName, computerChoiseName);
 
     let newDescription;
-    
+
     if (winner === 'tie') {
       newDescription = `${playerChoiseName} = ${computerChoiseName}`;
     } else if (winner === 'firstPlayer') {
@@ -73,7 +81,7 @@ const Board = () => {
 
     newResult.message = getMessage(winner);
     newResult.description = newDescription;
-       
+
     newRealPlayer.choise.icon = playerChoiseIcon;
     newRealPlayer.choise.name = playerChoiseName;
 
@@ -83,42 +91,49 @@ const Board = () => {
     setRealPlayer(newRealPlayer);
     setComputerPlayer(newComputerPlayer);
     setResult(newResult);
+    setStart(false);
+
+    if (realPlayer.score >= 5 || computerPlayer.score >= 5) {
+      realPlayer.score > computerPlayer.score
+        ? setTotalWinner(realPlayer.name)
+        : setTotalWinner(computerPlayer.name);
+      setGameover(true);
+    }
   };
+
+  const restartClickHandler = () => {
+    setRealPlayer(initialPlayers[0]);
+    setComputerPlayer(initialPlayers[1]);
+    setResult(initialResult);
+    setTotalWinner('');
+    setStart(true);
+    setGameover(false);
+  };
+
+  if (gameOver) {
+    return (
+      <div className="container">
+        <div className="row center-xs">
+          <div className="col-xs-12">
+            <GameOver name={totalWinner} />
+          </div>
+        </div>
+        <div className="row center-xs">
+          <div className="col-xs-12">
+            <p>Press buttton for restart!</p>
+            <Button icon={faArrowCircleUp} clickHandler={restartClickHandler} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
       <div className="container">
         <div className="row center-xs">
           <div className="col-xs-12">
-            <h1 className="board-heading">Rock | Paper | Scissors | Lizard | Spock</h1>
-          </div>
-        </div>
-        <div className="row middle-xs">
-          <div className="col-xs-4">
-            <PlayerCard player={realPlayer} />
-          </div>
-          <div className="col-xs-4">
-            <ResultInfo result={result} />
-          </div>
-          <div className="col-xs-4">
-            <PlayerCard player={computerPlayer} />
-          </div>
-        </div>
-        <div className="row center-xs">
-          <div className="col-xs-12">
-            <p className="game__text">Choose your weapon:</p>
-          </div>
-        </div>
-        <div className="row center-xs">
-          <div className="col-xs-12">
-            {handChoise.map(({ id, icon }) => {
-              return (
-                <Button
-                  key={id}
-                  clickHandler={() => choiseHandler(id)}
-                  icon={icon}
-                />);
-            })}
+            <h1 className="game__heading">Rock | Paper | Scissors | Lizard | Spock</h1>
           </div>
         </div>
         <div className="row center-xs">
@@ -131,9 +146,32 @@ const Board = () => {
             />
           </div>
         </div>
+        <div className="row middle-xs">
+          <div className="col-xs-4">
+            <PlayerCard player={realPlayer} start={start} />
+          </div>
+          <div className="col-xs-4">
+            <ResultInfo result={result} />
+          </div>
+          <div className="col-xs-4">
+            <PlayerCard player={computerPlayer} start={start} />
+          </div>
+        </div>
+        <div className="row center-xs">
+          <div className="col-xs-12">
+            <p className="game__text">Choose your weapon</p>
+          </div>
+        </div>
+        <div className="row center-xs">
+          <div className="col-xs-12">
+            {handChoise.map(({ id, icon }) => {
+              return <Button key={id} clickHandler={() => choiseHandler(id)} icon={icon} />;
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Board;
+export default Game;

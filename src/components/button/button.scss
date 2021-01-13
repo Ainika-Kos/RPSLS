@@ -1,5 +1,5 @@
 button {
-  margin: 10px;
+  margin: 15px 30px;
   padding: 10px;
   width: 120px;
   height: 120px;
@@ -8,15 +8,17 @@ button {
   border: none;
   cursor: pointer;
   outline: none;
-  transition: background-color 0.5s;
+  transition: background-color 0.5s, box-shadow 0.2s;
 
   &:hover {
     background-color: #e05252;
+  }
+  &:active {
+    box-shadow: 0 0 3pt 2pt#99e052;
   }
 
 }
 
 .button__icon {
   color: white;
-
 }
