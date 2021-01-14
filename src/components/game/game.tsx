@@ -24,7 +24,6 @@ const Game = () => {
   const [inputName, setInputName] = useState('');
   const [trickyChoise, setTrickyChoise] = useState(false);
   
-
   const maxScore = 10;
 
   useEffect(() => {
