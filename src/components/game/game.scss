@@ -1,7 +1,7 @@
 .game__heading {
   display: table;
   margin: 3vh auto;
-  font-size: 3rem;
+  font-size: 48px;
   background: linear-gradient(
     330deg,
     #e05252 0%,
@@ -21,4 +21,22 @@
   font-weight: 500;
   margin: 0;
   margin-bottom: 15px;
+}
+
+@media only screen and (max-width: 1100px) {
+  .game__heading {
+    font-size: 36px;
+  }
+  .game__text {
+    font-size: 14px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .game__heading {
+    font-size: 24px;
+  }
+  .game__text {
+    font-size: 14px;
+  }
 }

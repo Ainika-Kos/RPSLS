@@ -26,3 +26,22 @@
 .playCard__icon {
   color: #52e0e0;
 }
+
+
+@media only screen and (max-width: 800px) {
+  .playerCard {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .playCard__icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 6px double #52e0e0;
+  }
+}
+

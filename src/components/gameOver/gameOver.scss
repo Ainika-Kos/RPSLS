@@ -1,0 +1,16 @@
+.gameOver {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameOver__image-wrapper {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.gameOver__image {
+    width: 100%;
+    border-radius: 4px;
+}

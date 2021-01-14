@@ -10,23 +10,21 @@ type GameOverProps = {
 const GameOver = ({ name }: GameOverProps) => {
   return (
     <div className="gameOver">
-      <div>
-        {name === 'Computer' ? (
-          <div>
-            <p>Game Over!</p>
-            <div>
-              <img src={looserImage} alt="looser_image" />
-            </div>
+      {name === 'Computer' ? (
+        <div>
+          <p>Game Over!</p>
+          <div className="gameOver__image-wrapper">
+            <img src={looserImage} alt="looser_image" className="gameOver__image" />
           </div>
-        ) : (
-          <div>
-            <p>Congratulations!</p>
-            <div>
-              <img src={winnerImage} alt="winner_image" />
-            </div>
+        </div>
+      ) : (
+        <div>
+          <p>Congratulations!</p>
+          <div className="gameOver__image-wrapper">
+            <img src={winnerImage} alt="winner_image" className="gameOver__image" />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

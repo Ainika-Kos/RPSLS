@@ -4,14 +4,14 @@ import NameInput from '../nameInput/nameInput';
 import PlayerCard from '../playerCard/playerCard';
 import ResultInfo from '../resultInfo/resultInfo';
 import Button from '../button/button';
+import GameOver from '../gameOver/gameOver';
 import { PlayerType, ResultType } from '../../data/types';
 import { handChoise } from '../../data/handChoise';
 import { smartNumber } from '../../helpers/smartNumber';
 import { getWinner } from '../../helpers/getWinner';
 import { getMessage } from '../../helpers/getMessage';
-import './game.scss';
 import { getDescription } from '../../helpers/getDescription';
-import GameOver from '../gameOver/gameOver';
+import './game.scss';
 
 const initialPlayers: PlayerType[] = [
   {
@@ -35,7 +35,7 @@ const initialPlayers: PlayerType[] = [
 ];
 
 const initialResult: ResultType = {
-  message: 'Enjoy the game!',
+  message: 'Just play, Have fun, Enjoy the game!',
   description: '',
 };
 
@@ -112,7 +112,7 @@ const Game = () => {
 
   if (gameOver) {
     return (
-      <div className="container">
+      <div className="container container-fluid">
         <div className="row center-xs">
           <div className="col-xs-12">
             <GameOver name={totalWinner} />
@@ -130,14 +130,14 @@ const Game = () => {
 
   return (
     <div>
-      <div className="container">
+      <div className="container container-fluid">
         <div className="row center-xs">
           <div className="col-xs-12">
             <h1 className="game__heading">Rock | Paper | Scissors | Lizard | Spock</h1>
           </div>
         </div>
         <div className="row center-xs">
-          <div className="col-xs-4">
+          <div className="col-xs-12 col-sm-6 col-md-4">
             <NameInput
               type="search"
               value={realPlayer.name}
@@ -147,13 +147,13 @@ const Game = () => {
           </div>
         </div>
         <div className="row middle-xs">
-          <div className="col-xs-4">
+          <div className="col-xs-6 col-md-4 first-md">
             <PlayerCard player={realPlayer} start={start} />
           </div>
-          <div className="col-xs-4">
+          <div className="col-xs-12 col-md-4 last-xs">
             <ResultInfo result={result} />
           </div>
-          <div className="col-xs-4">
+          <div className="col-xs-6 col-md-4 last-md">
             <PlayerCard player={computerPlayer} start={start} />
           </div>
         </div>
