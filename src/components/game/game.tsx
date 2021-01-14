@@ -106,6 +106,8 @@ const Game = () => {
   };
 
   const restartClickHandler = () => {
+    const newplayerChoices: number[] = [];
+    setPlayerChoices(newplayerChoices);
     setRealPlayer(initialPlayers[0]);
     setComputerPlayer(initialPlayers[1]);
     setResult(initialResult);
@@ -113,7 +115,6 @@ const Game = () => {
     setStart(true);
     setGameover(false);
     setTrickyChoise(false);
-    setPlayerChoices(initialPlayerChoices);
   };
 
   if (gameOver) {
