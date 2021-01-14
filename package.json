@@ -1,8 +1,8 @@
 {
+  "homepage": "https://Ainika-Kos.github.io/rpsls",
   "name": "rpsls",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://ainika-kos.github.io/rpsls",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
