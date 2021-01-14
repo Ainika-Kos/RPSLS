@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleUp, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import NameInput from '../nameInput/nameInput';
 import PlayerCard from '../playerCard/playerCard';
 import ResultInfo from '../resultInfo/resultInfo';
@@ -20,6 +20,7 @@ const Game = () => {
   const [start, setStart] = useState(true);
   const [gameOver, setGameover] = useState(false);
   const [totalWinner, setTotalWinner] = useState('');
+  const [inputName, setInputName] = useState('');
 
   const maxScore = 10;
 
@@ -37,8 +38,15 @@ const Game = () => {
   const newResult = { ...result };
 
   const nameChangeHandler = (name: string) => {
-    newRealPlayer.name = name;
-    setRealPlayer(newRealPlayer);
+    setInputName(name);
+  };
+
+  const playerNameHandler = () => {
+    if (inputName) {
+      newRealPlayer.name = inputName;
+      setRealPlayer(newRealPlayer);
+      setInputName('');
+    }
   };
 
   const choiseHandler = (identificator: number) => {
@@ -103,7 +111,7 @@ const Game = () => {
         <div className="row center-xs">
           <div className="col-xs-12">
             <p className="game__text">Press buttton for restart!</p>
-            <Button icon={faArrowCircleUp} clickHandler={restartClickHandler} />
+            <Button icon={faArrowCircleUp} clickHandler={restartClickHandler} size="normal" />
           </div>
         </div>
       </div>
@@ -119,13 +127,16 @@ const Game = () => {
           </div>
         </div>
         <div className="row center-xs">
-          <div className="col-xs-12 col-sm-6 col-md-4">
-            <NameInput
-              type="search"
-              value={realPlayer.name}
-              placeholder="Enter your name"
-              onChange={nameChangeHandler}
-            />
+          <div className="col-xs-12 col-md-6">
+            <div className="input-wrapper">
+              <NameInput
+                type="text"
+                value={inputName}
+                placeholder="Enter your name"
+                onChange={nameChangeHandler}
+              />
+              <Button icon={faPlusCircle} clickHandler={playerNameHandler} size="small" />
+            </div>
           </div>
         </div>
         <div className="row middle-xs">
@@ -147,11 +158,9 @@ const Game = () => {
         <div className="row center-xs">
           <div className="col-xs-12">
             {handChoise.map(({ id, icon }) => {
-              return <Button
-                key={id}
-                clickHandler={() => choiseHandler(id)}
-                icon={icon}
-              />;
+              return (
+                <Button key={id} clickHandler={() => choiseHandler(id)} icon={icon} size="normal" />
+              );
             })}
           </div>
         </div>

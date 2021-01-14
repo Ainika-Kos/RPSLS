@@ -19,6 +19,20 @@ button {
 
 }
 
+.small {
+  width: 60px;
+  height: 60px;
+  padding: 10px;
+  background-color:#9952e0;
+
+  &:hover {
+    background-color: #99e052;
+  }
+  &:active {
+    box-shadow: 0 0 3pt 2pt#9952e0;
+  }
+}
+
 .button__icon {
   color: white;
 }

@@ -1,6 +1,6 @@
 
 .nameInput {
-  margin: 20px auto;
+  margin: 20px;
   border-radius: 4px;
   border: 2px solid#9952e0;
   padding: 10px;
@@ -8,6 +8,7 @@
   background-color: #003679;
   color: white;
   text-align: center;
+  min-height: 50px;
 
   &::placeholder {
     background-color: #003679;
