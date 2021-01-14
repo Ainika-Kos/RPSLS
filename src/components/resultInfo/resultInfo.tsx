@@ -10,7 +10,7 @@ type ResultInfoProps = {
 const ResultInfo = ({ result }: ResultInfoProps) => {
   return (
     <div className="resultInfo">
-      <p>{result.message}</p>
+      <p className={`resultInfo__text ${result.message === 'You win!' ? 'win' : ''} ${result.message === 'You lose!' ? 'lose' : ''}`}>{result.message}</p>
       <p>{result.description}</p>
     </div>
   );

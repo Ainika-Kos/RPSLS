@@ -1,7 +1,7 @@
 import React from 'react';
 import './playerCard.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faQuestion} from '@fortawesome/free-solid-svg-icons';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { PlayerType } from '../../data/types';
 
 type PlayerCardProps = {
@@ -28,7 +28,7 @@ const PlayerCard = ({ player, start }: PlayerCardProps) => {
         
       </div>
       <p className="playerCard__text">
-        {player.choise.name}
+        {!start ? player.choise.name : 'Start'}
       </p>
     </div>
   );

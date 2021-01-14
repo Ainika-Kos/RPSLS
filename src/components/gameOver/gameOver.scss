@@ -7,10 +7,19 @@
 
 .gameOver__image-wrapper {
     width: 100%;
-    border-radius: 4px;
+    max-width: 400px;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
 .gameOver__image {
     width: 100%;
-    border-radius: 4px;
+    border-radius: 8px;
+}
+
+.gameOver__text {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 15px 0;
 }

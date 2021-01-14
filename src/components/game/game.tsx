@@ -1,43 +1,17 @@
-import React, { useState } from 'react';
-import { faQuestion, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
+import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 import NameInput from '../nameInput/nameInput';
 import PlayerCard from '../playerCard/playerCard';
 import ResultInfo from '../resultInfo/resultInfo';
 import Button from '../button/button';
 import GameOver from '../gameOver/gameOver';
-import { PlayerType, ResultType } from '../../data/types';
+import { initialPlayers, initialResult } from '../../data/initialState';
 import { handChoise } from '../../data/handChoise';
 import { smartNumber } from '../../helpers/smartNumber';
 import { getWinner } from '../../helpers/getWinner';
 import { getMessage } from '../../helpers/getMessage';
 import { getDescription } from '../../helpers/getDescription';
 import './game.scss';
-
-const initialPlayers: PlayerType[] = [
-  {
-    name: '',
-    score: 0,
-    choise: {
-      id: 10,
-      name: 'start',
-      icon: faQuestion,
-    },
-  },
-  {
-    name: 'Computer',
-    score: 0,
-    choise: {
-      id: 10,
-      name: 'start',
-      icon: faQuestion,
-    },
-  },
-];
-
-const initialResult: ResultType = {
-  message: 'Just play, Have fun, Enjoy the game!',
-  description: '',
-};
 
 const Game = () => {
   const [realPlayer, setRealPlayer] = useState(initialPlayers[0]);
@@ -46,6 +20,17 @@ const Game = () => {
   const [start, setStart] = useState(true);
   const [gameOver, setGameover] = useState(false);
   const [totalWinner, setTotalWinner] = useState('');
+
+  const maxScore = 10;
+
+  useEffect(() => {
+    if (realPlayer.score >= maxScore || computerPlayer.score >= maxScore) {
+      realPlayer.score > computerPlayer.score
+        ? setTotalWinner(realPlayer.name)
+        : setTotalWinner(computerPlayer.name);
+      setGameover(true);
+    }
+  }, [realPlayer, computerPlayer]);
 
   const newRealPlayer = { ...realPlayer };
   const newComputerPlayer = { ...computerPlayer };
@@ -92,13 +77,6 @@ const Game = () => {
     setComputerPlayer(newComputerPlayer);
     setResult(newResult);
     setStart(false);
-
-    if (realPlayer.score >= 5 || computerPlayer.score >= 5) {
-      realPlayer.score > computerPlayer.score
-        ? setTotalWinner(realPlayer.name)
-        : setTotalWinner(computerPlayer.name);
-      setGameover(true);
-    }
   };
 
   const restartClickHandler = () => {
@@ -115,12 +93,16 @@ const Game = () => {
       <div className="container container-fluid">
         <div className="row center-xs">
           <div className="col-xs-12">
-            <GameOver name={totalWinner} />
+            <GameOver
+              name={totalWinner}
+              playerScore={realPlayer.score}
+              computerScore={computerPlayer.score}
+            />
           </div>
         </div>
         <div className="row center-xs">
           <div className="col-xs-12">
-            <p>Press buttton for restart!</p>
+            <p className="game__text">Press buttton for restart!</p>
             <Button icon={faArrowCircleUp} clickHandler={restartClickHandler} />
           </div>
         </div>
@@ -165,7 +147,11 @@ const Game = () => {
         <div className="row center-xs">
           <div className="col-xs-12">
             {handChoise.map(({ id, icon }) => {
-              return <Button key={id} clickHandler={() => choiseHandler(id)} icon={icon} />;
+              return <Button
+                key={id}
+                clickHandler={() => choiseHandler(id)}
+                icon={icon}
+              />;
             })}
           </div>
         </div>
