@@ -26,3 +26,5 @@ export const initialResult: ResultType = {
   message: '',
   description: 'Just play, Have fun, Enjoy the game!',
 };
+
+export const initialPlayerChoices: number[] = [];

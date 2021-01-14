@@ -5,9 +5,9 @@ import PlayerCard from '../playerCard/playerCard';
 import ResultInfo from '../resultInfo/resultInfo';
 import Button from '../button/button';
 import GameOver from '../gameOver/gameOver';
-import { initialPlayers, initialResult } from '../../data/initialState';
+import { initialPlayers, initialResult, initialPlayerChoices } from '../../data/initialState';
 import { handChoise } from '../../data/handChoise';
-import { smartNumber } from '../../helpers/smartNumber';
+import { getRandomNumber, getSmartNumber, isTrickyChoise } from '../../helpers/smartNumber';
 import { getWinner } from '../../helpers/getWinner';
 import { getMessage } from '../../helpers/getMessage';
 import { getDescription } from '../../helpers/getDescription';
@@ -17,10 +17,13 @@ const Game = () => {
   const [realPlayer, setRealPlayer] = useState(initialPlayers[0]);
   const [computerPlayer, setComputerPlayer] = useState(initialPlayers[1]);
   const [result, setResult] = useState(initialResult);
+  const [playerchoices, setPlayerChoices] = useState(initialPlayerChoices);
   const [start, setStart] = useState(true);
   const [gameOver, setGameover] = useState(false);
   const [totalWinner, setTotalWinner] = useState('');
   const [inputName, setInputName] = useState('');
+  const [trickyChoise, setTrickyChoise] = useState(false);
+  
 
   const maxScore = 10;
 
@@ -54,7 +57,22 @@ const Game = () => {
     const playerChoiseIcon = handChoise[index].icon;
     const playerChoiseName = handChoise[index].name;
 
-    const number = smartNumber();
+    playerchoices.push(index);
+    setPlayerChoices(playerchoices);
+
+    if (isTrickyChoise(playerchoices, index)) {
+      setTrickyChoise(true);
+    } else {
+      setTrickyChoise(false);
+    }
+
+    let number;
+    if (trickyChoise) {
+      number = getSmartNumber(index);
+    } else {
+      number = getRandomNumber();
+    }
+
     const computerChoiseIcon = handChoise[number].icon;
     const computerChoiseName = handChoise[number].name;
 
@@ -94,6 +112,8 @@ const Game = () => {
     setTotalWinner('');
     setStart(true);
     setGameover(false);
+    setTrickyChoise(false);
+    setPlayerChoices(initialPlayerChoices);
   };
 
   if (gameOver) {
@@ -152,7 +172,11 @@ const Game = () => {
         </div>
         <div className="row center-xs">
           <div className="col-xs-12">
-            <p className="game__text">Choose your weapon</p>
+            {trickyChoise ? (
+              <p className="game__text red">Hey! Tricky choice! Choose another weapon or computer will win you!</p>
+            ) : (
+              <p className="game__text">Choose your weapon</p>
+            )}
           </div>
         </div>
         <div className="row center-xs">
